@@ -1,0 +1,32 @@
+Bootstrap: docker
+From: tensorflow/tensorflow:2.7.0-gpu
+
+# Environment for MixNet + HWNet (INSTRUCTION §4.2: Python 3.8.10, TF 2.7.0 GPU).
+# Build (needs --fakeroot):  singularity build --fakeroot env/mixnet.sif env/mixnet.def
+#   If / (/tmp) is short on space, point the build tmp dir at /ist-flash, e.g.
+#   SINGULARITY_TMPDIR=/ist-flash/.../tmp singularity build --fakeroot ...  (needed on this server)
+# Run (from MixNet/experiments):
+#   singularity exec --nv -B $(realpath ..) --env PYTHONPATH=$(realpath ..) ../env/mixnet.sif python run_HWNet.py ...
+#   (-B is required: singularity only auto-binds the cwd, so the parent MixNet/ is invisible otherwise)
+# The image is read-only, so `pip install -e .` is replaced by PYTHONPATH pointing at the clone.
+
+%post
+    export PIP_NO_CACHE_DIR=1
+    # The TF 2.7 image's CUDA apt repo key is stale; skip apt entirely (not needed).
+    python -m pip install --upgrade "pip<24"
+    # Pins that keep TF 2.7 working: numpy<1.24 (np.object etc. removed), protobuf<4.
+    pip install "numpy>=1.21,<1.24" "protobuf==3.20.3" \
+        tensorflow-addons==0.16.1 scikit-learn==1.2.2 wget>=3.2 h5py==3.5.0 \
+        "pandas>=1.5.3,<2.1" mne==1.6.1 moabb==1.0.0 "ray>=1.11.0" scipy
+    python -c "import tensorflow as tf, tensorflow_addons, sklearn, mne, moabb, numpy, scipy, h5py, pandas; print(tf.__version__, numpy.__version__)"
+
+%environment
+    export PYTHONUNBUFFERED=1
+    export PYTHONNOUSERSITE=1
+    export TF_CPP_MIN_LOG_LEVEL=1
+    # RTX 4090 (sm_89) is newer than TF 2.7's prebuilt kernels -> PTX JIT on first run; cache it.
+    export CUDA_CACHE_MAXSIZE=4294967296
+
+%labels
+    Project MixNet-HWNet
+    TensorFlow 2.7.0-gpu

@@ -1,0 +1,49 @@
+INFO:    Starting build...
+INFO:    Fetching OCI image...
+INFO:    Extracting OCI image...
+2026/10/14 22:26:13  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2026/10/14 22:26:13  warn xattr{/ist-flash/ist-share/vision/sukit/.sif_build_tmp/build-temp-3872613186/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2026/10/14 22:26:44  warn xattr{var/log/apt/term.log} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2026/10/14 22:26:44  warn xattr{/ist-flash/ist-share/vision/sukit/.sif_build_tmp/build-temp-3872613186/rootfs/var/log/apt/term.log} destination filesystem does not support xattrs, further warnings will be suppressed
+2026/10/14 22:26:49  warn xattr{var/log/apt/term.log} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2026/10/14 22:26:49  warn xattr{/ist-flash/ist-share/vision/sukit/.sif_build_tmp/build-temp-3872613186/rootfs/var/log/apt/term.log} destination filesystem does not support xattrs, further warnings will be suppressed
+2026/10/14 22:26:50  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2026/10/14 22:26:50  warn xattr{/ist-flash/ist-share/vision/sukit/.sif_build_tmp/build-temp-3872613186/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2026/10/14 22:29:37  warn xattr{var/cache/apt/archives/partial} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2026/10/14 22:29:37  warn xattr{/ist-flash/ist-share/vision/sukit/.sif_build_tmp/build-temp-3872613186/rootfs/var/cache/apt/archives/partial} destination filesystem does not support xattrs, further warnings will be suppressed
+2026/10/14 22:29:46  warn xattr{var/cache/apt/archives/partial} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2026/10/14 22:29:46  warn xattr{/ist-flash/ist-share/vision/sukit/.sif_build_tmp/build-temp-3872613186/rootfs/var/cache/apt/archives/partial} destination filesystem does not support xattrs, further warnings will be suppressed
+2026/10/14 22:29:47  warn xattr{usr/local/lib/python3.8} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2026/10/14 22:29:47  warn xattr{/ist-flash/ist-share/vision/sukit/.sif_build_tmp/build-temp-3872613186/rootfs/usr/local/lib/python3.8} destination filesystem does not support xattrs, further warnings will be suppressed
+2026/10/14 22:29:57  warn xattr{usr/local/lib/python3.8} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2026/10/14 22:29:57  warn xattr{/ist-flash/ist-share/vision/sukit/.sif_build_tmp/build-temp-3872613186/rootfs/usr/local/lib/python3.8} destination filesystem does not support xattrs, further warnings will be suppressed
+INFO:    Inserting Singularity configuration...
+INFO:    Running post scriptlet
++ export PIP_NO_CACHE_DIR=1
++ python -m pip install --upgrade pip<24
+Collecting pip<24
+  Downloading pip-23.3.2-py3-none-any.whl (2.1 MB)
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 20.2.4
+    Uninstalling pip-20.2.4:
+      Successfully uninstalled pip-20.2.4
+Successfully installed pip-23.3.2
++ pip install numpy>=1.21,<1.24 protobuf==3.20.3 tensorflow-addons==0.16.1 scikit-learn==1.2.2 wget h5py==3.5.0 pandas>=1.5.3,<2.1 mne==1.6.1 moabb==1.0.0 ray>=1.11.0 scipy
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.3.2 -> 25.0.1
+[notice] To update, run: python -m pip install --upgrade pip
++ python -c import tensorflow as tf, tensorflow_addons, sklearn, mne, moabb, numpy, scipy, h5py, pandas; print(tf.__version__, numpy.__version__)
+<frozen importlib._bootstrap>:219: FutureWarning: mne.io.pick.pick_types is deprecated will be removed in 1.6, use documented public API instead. If no appropriate public API exists, please open an issue on GitHub.
+<frozen importlib._bootstrap>:219: FutureWarning: mne.io.pick.pick_channels_regexp is deprecated will be removed in 1.6, use documented public API instead. If no appropriate public API exists, please open an issue on GitHub.
+<frozen importlib._bootstrap>:219: FutureWarning: mne.io.pick.channel_type is deprecated will be removed in 1.6, use documented public API instead. If no appropriate public API exists, please open an issue on GitHub.
+/usr/local/lib/python3.8/dist-packages/moabb/pipelines/__init__.py:26: ModuleNotFoundError: Tensorflow is not installed. You won't be able to use these MOABB pipelines if you attempt to do so.
+  warn(
+To use the get_shape_from_baseconcar, InputShapeSetterEEG, BraindecodeDatasetLoaderyou need to install `braindecode`.`pip install braindecode` or Please refer to `https://braindecode.org`.
+2.7.0 1.23.5
+INFO:    Adding labels
+INFO:    Adding environment to container
+INFO:    Creating SIF file...
+INFO:    Build complete: env/mixnet.sif
+EXIT 0

@@ -1,0 +1,63 @@
+HWNet best configuration
+========================
+Source run : logs/HWNet_r4_D8_lr2_s7
+Config file: configs/HWNet_best.py   (python run_HWNet.py --model_name HWNet_best)
+Task       : BCIC2a, 2 classes, subject-dependent, 9 subjects x 5 folds
+
+Changed from configs/HWNet.py defaults
+--------------------------------------
+D             = 8       (default 2)     confirmed from weight shapes
+n_dec_layers  = 1       (default 2)     confirmed from weight shapes
+lr            = 2e-3    (default 1e-3)  inferred from run name "lr2"
+es_patience   = 60      (default 30)    confirmed from training logs
+seed          = 7       (default 1234)  inferred from run name "s7"
+
+Unchanged defaults
+------------------
+input_shape   = (9, 8, 400)   (bands, CSP comps, samples)
+d_model       = 32
+pool          = 16
+n_layers      = 2   (encoder transformer blocks)
+n_heads       = 4
+key_dim       = 8
+ffn_mult      = 2
+dropout_rate  = 0.3
+norm_rate     = 0.25
+p_band        = 0.2   (band masking)
+n_tmask       = 1     (time masks)
+t_mask_len    = 40
+lambda_rec    = 0.1   (loss_weights = [0.1, 1.0])
+optimizer     = Adam(beta_1=0.9, beta_2=0.999, epsilon=1e-8)
+min_lr        = 1e-4
+factor        = 0.5
+patience      = 5
+epochs        = 300
+min_epochs    = 20
+batch_size    = 16
+monitor       = val_crossentropy_loss (min)
+class_balancing = True
+
+Parameters
+----------
+trainable total          = 73,786
+encoder + classifier     = 21,106   (used at test time)
+decoder (training only)  = 52,680
+MixNet for reference     = 44,777 total, 30,107 encoder + classifier
+
+Results (mean +/- std across 9 subjects)
+----------------------------------------
+Model                 Accuracy         F1
+MixNet                0.772 +/- 0.148  0.763
+HWNet (best)          0.781 +/- 0.136  0.767
+HWNet w/o CSP *       0.616 +/- 0.113  0.558
+HWNet, no masking *   0.656 +/- 0.126  0.594
+
+* ablations change one thing from the base config
+  (logs/HWNet_r1_base: 0.727 +/- 0.142, F1 0.698), not from the best config.
+
+HWNet (best) vs MixNet, paired over 9 subjects:
+  accuracy +0.0096, wins 4/9, t-test p = 0.68, Wilcoxon p = 0.91 (not significant)
+  f1       +0.0041, wins 4/9, t-test p = 0.89, Wilcoxon p = 0.65 (not significant)
+
+Caveat: this seed was selected by test accuracy. The same config with
+seed 42 gives 0.760; the mean over the three D8_lr2 runs is about 0.771.
